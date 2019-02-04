@@ -1,0 +1,4 @@
+TestSodaCan ran successfully: 1
+TestPerson ran successfully: 1
+Scenario compiles and runs without error: 1
+Total: 3/3
