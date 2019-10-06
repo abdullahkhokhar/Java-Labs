@@ -1,0 +1,113 @@
+1) Take a look at the class diagram and code for 
+   paint. The class diagram is in diagram.ucls
+   and in diagram.gif.
+
+   Identify the classes involved in the 
+
+   a) Factory Design Pattern
+
+      ShapeManipulatorFactory.java
+      ShapeChooserPanel.java
+      View.java
+      PaintPanel.java
+      // The reason I have chosen to add the classes bellow is due to the factory design pattern's key
+      // use in this project is to generate manipulator strategies dependent on the strategy name passed in to the factory,
+      // hence a part of the design pattern.
+      CircleManipulatorStrategy.java		
+      SquiggleManipulatorStrategy.java		
+      RectangleManipulatorStrategy.java	
+
+
+   b) Strategy Design Pattern
+
+      PaintPanel.java 					// the strategy is set in the paint panel.
+      PaintModel.java 					// A manipulator strategy class has a paint model.
+      ShapeManipulatorStrategy.java
+      CircleManipulatorStrategy.java
+      RectangleManipulatorStrategy.java
+      SquiggleManipulatorStrategy.java
+      Circle.java
+      Rectangle.java
+      Squiggle.java
+
+   c) Command Design Pattern
+   
+   		
+      ShapeManipulatorStrategy.java // Can add a command to the model.
+      PaintModel.java
+      PaintCommand.java
+      CircleCommand.java
+      RectangleCommand.java
+      SquiggleCommand.java
+      Circle.java
+      Rectangle.java
+      Squiggle.java
+
+   d) Which classes are observable. Which classes are
+      observers. Note that this is not included in the
+      class diagrams, so you will have to take a look at
+      the code.
+
+      Observable:
+
+      PaintModel.java
+      Shape.java
+
+      Observers are? What do they Observe?:
+
+      PaintPanel.java - observes PaintModel.java
+      PaintModel.java - observes Shape.java
+
+2) Explain what happens in the code after each step in the following
+   sequence of events:
+
+   a) The user clicks the Circle button on the ShapeChooserPanel.
+
+      The button fires the handle event handler in the ShapeChooserPanel
+      which asks the ShapeManipulatorFactory for a CircleManipulatorStrategy
+      The CircleManipulatorStrategy is hooked up to to the PaintModel
+      so that the strategy can modify the PaintModel in response to mouse events.
+      This new CircleManipulatorStrategy is installed in the view
+      which in turn installs the strategy in the PaintPanel
+      so that now all PaintPanel mouse events are sent to the
+      new CircleManipulatorStrategy.
+
+   b) Next the user clicks in the Canvas on the PaintPanel.
+
+      The click is a mouse event, for which the Paint Panel's handle(MouseEvent event) method is initially 
+      called. As part of our Paint Panel, we have the notion of a strategy that is of type ShapeManipulatorStrategy.
+      When this handle method is called, as part of the body we call upon the handle(MouseEvent event) in the ShapeManipulatorStrategy
+      class to deal with our event. This method has a series of if statements to see the event type, and with what we've currently done
+      we have had a MousePressed, MouseReleased, and then a MouseClicked event. From this, we see that there are no implementation of 
+      what to do when there is a mouse event, but instead, that is left to our inheriting class. In this case we have that our
+      CircleManipulatorStrategy does not implement the released and clicked events, but it does for a press. From the handle method,
+      CircleManipulatorStrategy's method for mousePressed is called upon. Here we create a new point, which will be the coordinates of
+      where we pressed our mouse, and a new Circle with this as its center. We also create a new command type, for which we pass in this
+      new circle made, and add it to our ArrayList of commands in the model. When this happens, the observers are notified, specifically, the observer
+      is Paint Panel and so is notified. The repaint method is invoked due paint panel calling upon it through its update method. In repaint, we then
+      clear our canvas and call upon the executeAll method in our model with the graphics context. This method in the model now loops through our ArrayList
+      of paint commands and calls their execute methods, then the CircleCommands execute method will draw our shape on the canvas using the properties of Circle.
+      
+
+   c) Next the user drags the mouse across the Canvas in the PaintPanel.
+
+      Similarly, the drag across the canvas will call Paint Panel's handle method. Then ShapeManipulatorStrategy's handle method is called upon, which in turn
+      will call our CircleManipulatorStrategy's mouseDragged method and implementation, again same reasoning as above. Because the mouse being dragged changes the
+      radius of our circle, in our mouseDragged implementation we calculate this new radius and give it to our circle by calling upon its setRadius property. When 
+      we complete this there will be an update to Circle's observers, specifically, Paint Model. A similar procedure now takes place like above, where we use the model's
+      update() method to notify our observers and have the repaint procedure occur again.
+
+   d) Next the user clicks in the Canvas on the Paint Panel. 
+
+      Like mentioned above, when this occurs the Paint panel's handle() method is called upon which then part of its body directs us to ShapeManipulatorStrategy's handle()
+      method, which in turn leads us to the mousePressed() method that has been implemented in CircleManipulatorStrategy. A new point is made with the current coordinates of
+      where mouse was clicked and a new circle instance is made with this as its center, and like mentioned above, a new CircleCommand is made and added to our ArrayList in model.
+      A similar procedure occurs where now the model notifies its observers that a new command has been added and repaint is eventually called again which then calls upon executeAll.
+      However, now in our ArrayList of commands we have 2 commands, each of which the execute method is called and drawn to the Canvas using the Circle properties.
+
+   e) Next the user clicks the Rectangle Button on the ShapeChooserPanel.
+   
+   	  The button calls upon the handle event handler in the ShapeChooserPanel, which then asks the	ShapeManipulatorFactory for a RectangleManipulatorStrategy.
+   	  The RectangleManipulatorStrategy is hooked up to the view which in turn installs the strategy in the PaintPanel so that now all PaintPanel mouse events are sent to the
+      new RectangleManipulatorStrategy.
+

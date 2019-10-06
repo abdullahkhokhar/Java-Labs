@@ -1,0 +1,35 @@
+# Copy User Stories from the ProductBacklog 
+# to the appropriate Sprint below, after the 
+# Sprint Planning Meeting.
+
+# Sprint 1 Dec 28, 2018
+# Sprint 1 Backlog UserStories go below
+--------------------------------------------------------------------------
+TYPE     : USER STORY 6 : khokha59
+NAME     : Fill style selector
+OWNER    : 
+PRIORITY :
+ESTIMATE : 
+AS A     : user
+I WANT   : To be able to select the current drawing style (filled or outline), to be applied
+           to subsequent shapes. Example: 
+           		selects fill style solid
+           		mode circle
+           		draw a circle
+           		draw a circle
+           		mode rectangle
+           		draw a rectangle
+           		select fill style outline
+           		draw a rectangle
+           		draw a rectangle
+           		select mode squiggle
+           		draw a squiggle
+           	results in two solid circles and a solid rectangle as well as
+           	two outlined rectangles and a squiggle
+SO THAT  : 
+--------------------------------------------------------------------------
+# Sprint 2 Nov 3, 2018
+# Sprint 2 Backlog UserStories go below
+
+# Sprint 2 Nov 9, 2018
+# Sprint 2 Backlog UserStories go below
